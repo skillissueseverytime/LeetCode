@@ -37,8 +37,10 @@ public:
         int n = nums.size();
         int ans = n;
         for (int i = 1; i < n - 1; i++) {
-            int maxi = lds(i - 1, i, nums) + lis(i + 1, i, nums);
-            cout<<i<<maxi;
+            int left=lds(i - 1, i, nums) ,right= lis(i + 1, i, nums);
+            if(left==0 || right ==0) continue; 
+           // cout<<i<<maxi;
+           int maxi=left+right;
             ans = min(ans, n - (maxi + 1));
         }
         return ans;
