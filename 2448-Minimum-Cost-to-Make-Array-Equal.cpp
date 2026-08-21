@@ -5,16 +5,40 @@ public:
         int n = cost.size();
         vector<pair<int, int>> v;
         for (int i = 0; i < n; i++) {
-            pair<int, int> p = {cost[i], nums[i]};
+            pair<int, int> p = {nums[i], cost[i]};
             v.push_back(p);
         }
         sort(v.begin(), v.end());
-        int x=v.back().second;
-        long long ans=0;
+        long long l = v[0].first, r = v.back().first;
 
-        for(int i=0;i<n;i++){
-            if(nums[i]!=x) ans+=1LL*abs(x-nums[i])*cost[i];
+        long long ans = 0;
+
+        while (l < r) {
+            long long m = l + (r - l) / 2;
+            // we have to check for mid
+            long long temp = 0;
+            for (int i = 0; i < n; i++) {
+                temp += 1LL * abs(v[i].first - m) * v[i].second;
+            }
+            // mid -1
+            long long temp1 = 0;
+            for (int i = 0; i < n; i++) {
+                temp1 += 1ll * abs(v[i].first - (m + 1)) * v[i].second;
+            }
+
+            if (temp < temp1) {
+                r = m ;
+                // ans=temp;
+            } else {
+                l = m + 1;
+                // ans=temp;
+            }
         }
+
+        for (int i = 0; i < n; i++) {
+            ans += 1ll*abs(l - v[i].first) * v[i].second;
+        }
+
         return ans;
     }
 };
